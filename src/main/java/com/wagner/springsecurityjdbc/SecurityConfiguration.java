@@ -16,7 +16,7 @@ import javax.sql.DataSource;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    DataSource dataSource;
+    DataSource dataSource; //este projeto utiliza h2 database. Mas pode mudar o database no application.properties
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -40,8 +40,29 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 // ========================================================
 
         // usa o usuário e senha gravados no database para fazer autenticação
+        // aqui está se utilizando o Security Database Schema (padrão do spring)
+        // esse schema está disponível em https://docs.spring.io/spring-security/site/docs/4.2.x/reference/html/appendix-schema.html
         auth.jdbcAuthentication()
                 .dataSource(dataSource);
+
+// ========================================================
+//        se não utilizar o default schema, então vc pode informar o schema através desse exemplo:
+// ========================================================
+//        auth.jdbcAuthentication()
+//                .dataSource(dataSource)
+//                .usersByUsernameQuery("select username, password, enabled"
+//                        + "from users "
+//                        + "where username = ?"
+//                )
+//                .authoritiesByUsernameQuery("select username, authority"
+//                        + "from authorities "
+//                        + "where username = ?"
+//                );
+
+// ========================================================
+
+
+
     }
 
     @Override

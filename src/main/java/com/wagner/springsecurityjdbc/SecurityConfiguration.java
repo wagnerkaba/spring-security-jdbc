@@ -20,20 +20,28 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .withDefaultSchema()
-                .withUser(
-                        User.withUsername("user")
-                                .password("pass")
-                                .roles("USER")
+// ========================================================
+//        cria usuários user e admin no database através do código
+// ========================================================
+//        auth.jdbcAuthentication()
+//                .dataSource(dataSource)
+//                .withDefaultSchema()
+//                .withUser(
+//                        User.withUsername("user")
+//                                .password("pass")
+//                                .roles("USER")
+//
+//                )
+//                .withUser(
+//                        User.withUsername("admin")
+//                                .password("pass")
+//                                .roles("ADMIN")
+//                );
+// ========================================================
 
-                )
-                .withUser(
-                        User.withUsername("admin")
-                                .password("pass")
-                                .roles("ADMIN")
-                );
+        // usa o usuário e senha gravados no database para fazer autenticação
+        auth.jdbcAuthentication()
+                .dataSource(dataSource);
     }
 
     @Override
